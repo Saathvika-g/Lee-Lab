@@ -60,9 +60,7 @@ function Layout() {
           "/contact",
           "/login",
         ];
-        const match = bases.some(
-          (base) => p === base || p.startsWith(base + "/")
-        );
+        const match = bases.some((base) => p === base || p.startsWith(base + "/"));
         return match;
       })() && (
         <footer
