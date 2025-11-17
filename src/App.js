@@ -107,11 +107,6 @@ export default function App() {
   return (
     <Router>
       <Layout />
-      {/* Load Bootstrap JS for the carousel functionality */}
-      <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        crossOrigin="anonymous"
-      ></script>
     </Router>
   );
 }
