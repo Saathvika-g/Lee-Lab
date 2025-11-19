@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
 import currentPhoto from '../assets/headshots - current members/photo - current.jpg';
 import alumniPhoto from '../assets/headshots - past members/photo - alums.jpg';
 
@@ -28,10 +27,9 @@ import williamsPhoto from '../assets/headshots - past members/headshot - william
 import natiliaPhoto from '../assets/headshots - past members/headshot - natilia 2022.jpeg'
 import sereenPhoto from '../assets/headshots - past members/headshot - sereen 2022.jpg'
 
-// Unified Members Page with Toggle
+// Unified Members Page
 function MembersPage({ initialView = 'current' }) {
   const navigate = useNavigate()
-  const [activeView, setActiveView] = useState(initialView)
 
   // Principal Investigator (fixed at top)
   const principalInvestigator = {
@@ -230,26 +228,8 @@ function MembersPage({ initialView = 'current' }) {
         </div>
       </article>
 
-      {/* Toggle Switch */}
-      <div className="toggle-switch-container">
-        <button 
-          className={`toggle-button ${activeView === 'current' ? 'active' : ''}`}
-          onClick={() => setActiveView('current')}
-          aria-label="View Current Members"
-        >
-          Current Members
-        </button>
-        <button 
-          className={`toggle-button ${activeView === 'alumni' ? 'active' : ''}`}
-          onClick={() => setActiveView('alumni')}
-          aria-label="View Alumni"
-        >
-          Alumni
-        </button>
-      </div>
-
       {/* Current Members Section */}
-      {activeView === 'current' && (
+      {initialView === 'current' && (
         <div className="alumni-sections">
           {/* Graduate Students Section */}
           {currentGradStudents.length > 0 && (
@@ -274,7 +254,7 @@ function MembersPage({ initialView = 'current' }) {
       )}
 
       {/* Alumni Section */}
-      {activeView === 'alumni' && (
+      {initialView === 'alumni' && (
         <div className="alumni-sections">
           {alumniTechnicians.length > 0 && (
             <section className="alumni-category-section" aria-labelledby="technicians-title">
@@ -762,50 +742,6 @@ function PeopleStyles() {
         color: #000000;
       }
 
-      /* Toggle Switch */
-      .toggle-switch-container {
-        display: flex;
-        justify-content: center;
-        gap: 0;
-        margin: 3rem 0;
-        background: #f3f4f6;
-        border-radius: 8px;
-        padding: 0.25rem;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .toggle-button {
-        flex: 1;
-        padding: 0.75rem 2rem;
-        border: none;
-        background: transparent;
-        color: #4b5563;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-        font-family: inherit;
-      }
-
-      .toggle-button:hover {
-        color: #000000;
-        background: rgba(0, 0, 0, 0.05);
-      }
-
-      .toggle-button.active {
-        background: #ffffff;
-        color: #000000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .toggle-button:focus {
-        outline: 2px solid #667eea;
-        outline-offset: 2px;
-      }
-
       /* Footer Navigation */
       .people-footer-nav {
         position: fixed;
@@ -966,16 +902,6 @@ function PeopleStyles() {
 
         .members-container {
           padding-bottom: 8rem;
-        }
-
-        .toggle-switch-container {
-          max-width: 100%;
-          margin: 2rem 0;
-        }
-
-        .toggle-button {
-          padding: 0.65rem 1rem;
-          font-size: 0.9rem;
         }
 
         .people-footer-nav {
