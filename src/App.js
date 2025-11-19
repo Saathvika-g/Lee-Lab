@@ -53,6 +53,8 @@ function Layout() {
           <Route path="/" element={<HomePage />} />
           <Route path="/research" element={<Research />} />
           <Route path="/people" element={<People />} />
+          <Route path="/current-members" element={<People />} />
+          <Route path="/alumni" element={<People />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contact />} />
