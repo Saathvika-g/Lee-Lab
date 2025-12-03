@@ -29,14 +29,14 @@ export default function HomePage() {
   // ✅ Carousel auto-slides every 5 seconds
   const sliderInterval = 5000;
 
-  // ✅ Remove navbar background color after page load
-  useEffect(() => {
-    const navbar = document.querySelector(".navbar");
-    if (navbar) {
-      navbar.style.background = "transparent";
-      navbar.style.boxShadow = "none";
-    }
-  }, []);
+  // // ✅ Remove navbar background color after page load
+  // useEffect(() => {
+  //   const navbar = document.querySelector(".navbar");
+  //   if (navbar) {
+  //     navbar.style.background = "transparent";
+  //     navbar.style.boxShadow = "none";
+  //   }
+  // }, []);
 
   return (
     <div className="container-fluid p-0">

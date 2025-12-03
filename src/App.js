@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,42 +13,47 @@ import News from "./components/News";
 import Contact from "./components/Contact";
 import Login from "./components/Login";
 import SiteNavbar from "./components/SiteNavbar";
+import Register from "./components/Register";
 
 function Layout() {
   const location = useLocation();
   const navRef = useRef(null);
+  const [navHeight, setNavHeight] = useState(0);
 
   // treat / or /index.html as home
   const isHome =
     location.pathname === "/" || location.pathname === "/index.html";
 
   useEffect(() => {
-    const adjust = () => {
-      if (!navRef.current) return;
-      if (isHome) {
-        // bar at bottom
-        document.body.style.paddingTop = "0px";
-        document.body.style.paddingBottom = `${navRef.current.offsetHeight}px`;
-      } else {
-        // bar at top
-        document.body.style.paddingBottom = "0px";
-        document.body.style.paddingTop = `${navRef.current.offsetHeight}px`;
+    const updateNavHeight = () => {
+      if (navRef.current) {
+        setNavHeight(navRef.current.offsetHeight || 0);
       }
     };
-    adjust();
-    window.addEventListener("resize", adjust);
-    return () => window.removeEventListener("resize", adjust);
-  }, [isHome]);
+    updateNavHeight();
+    window.addEventListener("resize", updateNavHeight);
+    return () => window.removeEventListener("resize", updateNavHeight);
+  }, []);
+
+  const mainStyle = isHome
+    ? {
+        paddingBottom: navHeight,
+        minHeight: `calc(100vh - ${navHeight}px)`,
+      }
+    : {
+        paddingTop: navHeight,
+        minHeight: `calc(100vh - ${navHeight}px)`,
+      };
 
   return (
     <div
-      className="d-flex flex-column min-vh-100"
-      style={{ fontFamily: "Inter, sans-serif" }}
+      className="d-flex flex-column"
+      style={{ minHeight: "100vh", fontFamily: "Inter, sans-serif" }}
     >
       {/* top on non-home, bottom on home */}
       <SiteNavbar ref={navRef} place={isHome ? "bottom" : "top"} />
 
-      <main className="flex-grow-1">
+      <main className="flex-grow-1" style={mainStyle}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/research" element={<Research />} />
@@ -57,6 +62,7 @@ function Layout() {
           <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
     </div>
