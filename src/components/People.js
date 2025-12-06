@@ -204,21 +204,22 @@ function MembersPage({ initialView = 'current' }) {
           </p>
         )}
       </div>
-      <div className="member-photo" role="img" aria-label={`Photo of ${member.name}`}>
+      <div className="member-photo">
         <img src={member.photo} alt={`Portrait of ${member.name}`} loading="lazy" />
       </div>
     </article>
   )
 
   return (
-    <main className="members-container" role="main">
+    <main className="members-container" role="main" id="main-content">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <header>
         <h1 className="page-title">Lee Lab Members</h1>
       </header>
       
       {/* Principal Investigator Section - Fixed at top */}
       <article className="pi-card" aria-labelledby="pi-name">
-        <div className="pi-photo" role="img" aria-label={`Photo of ${principalInvestigator.name}`}>
+        <div className="pi-photo">
           <img src={principalInvestigator.photo} alt={`Portrait of ${principalInvestigator.name}`} />
         </div>
         <div className="pi-info">
@@ -354,21 +355,24 @@ function PeopleStyles() {
         margin: 0 auto;
         padding: 4rem 2rem;
         text-align: center;
+        background-color: #ffffff;
+        min-height: calc(100vh - 58px);
       }
 
       .people-heading {
-        font-size: 3rem;
-        font-weight: 400;
-        color: #000000;
-        margin-bottom: 3.5rem;
+        font-size: 2.75rem;
+        font-weight: 500;
+        color: #143D6D;
+        margin-bottom: 4rem;
         text-align: center;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
       }
 
       .people-title {
         font-size: 3rem;
         font-weight: 300;
-        color: #111827;
+        color: #143D6D;
         margin-bottom: 1rem;
         letter-spacing: -0.02em;
       }
@@ -383,25 +387,26 @@ function PeopleStyles() {
       .photo-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
-        max-width: 1400px;
+        gap: 3rem;
+        max-width: 1200px;
         margin: 0 auto;
       }
 
       .photo-container {
         position: relative;
-        height: 400px;
+        height: 500px;
         aspect-ratio: 16 / 9;
-        border-radius: 12px;
+        border-radius: 8px;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        border: none;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(20, 61, 109, 0.08);
+        border: 1px solid rgba(20, 61, 109, 0.08);
         background: none;
         padding: 0;
         text-align: left;
         width: 100%;
+        display: block;
       }
 
       .photo-placeholder {
@@ -415,30 +420,29 @@ function PeopleStyles() {
         height: 100%;
         object-fit: cover;
         object-position: center;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      .photo-container h3 {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        color: white;
-        font-size: 1.5rem;
-        font-weight: 500;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        z-index: 10;
+      .photo-container:hover .photo-placeholder img {
+        transform: scale(1.03);
       }
 
-      .photo-container:hover,
+      .photo-container:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(20, 61, 109, 0.12);
+        border-color: rgba(20, 61, 109, 0.15);
+      }
+
       .photo-container:focus {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        outline: 2px solid #667eea;
-        outline-offset: 2px;
+        outline: 2px solid #1CC0F0;
+        outline-offset: 3px;
       }
 
       .photo-container:focus-visible {
-        outline: 3px solid #667eea;
+        outline: 2px solid #1CC0F0;
         outline-offset: 3px;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(20, 61, 109, 0.12);
       }
 
       .photo-overlay {
@@ -470,11 +474,21 @@ function PeopleStyles() {
       }
 
       .photo-title {
-        font-size: 2.5rem;
-        font-weight: 400;
+        font-size: 2rem;
+        font-weight: 600;
         color: #ffffff;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.01em;
+        letter-spacing: 0.08em;
+        position: absolute;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        text-transform: uppercase;
+        z-index: 10;
+        margin: 0;
+        width: 100%;
+        padding: 0 24px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
 
       .photo-subtitle {
@@ -494,23 +508,20 @@ function PeopleStyles() {
         transition: transform 0.5s ease;
       }
 
-      .photo-container:hover .photo-background {
-        transform: scale(1.05);
-      }
 
       .current-members-bg {
         background: linear-gradient(
           135deg,
-          #667eea 0%,
-          #764ba2 100%
+          #143D6D 0%,
+          #1CC0F0 100%
         );
       }
 
       .alumni-bg {
         background: linear-gradient(
           135deg,
-          #f093fb 0%,
-          #f5576c 100%
+          #FF7A30 0%,
+          #FF7601 100%
         );
       }
 
@@ -522,12 +533,18 @@ function PeopleStyles() {
         padding-bottom: 10rem;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         position: relative;
+        background-color: #ffffff;
+        min-height: calc(100vh - 58px);
+      }
+
+      .people-container {
+        position: relative;
       }
 
       .back-button {
         background: none;
         border: none;
-        color: #333333;
+        color: #143D6D;
         font-size: 1rem;
         cursor: pointer;
         margin-bottom: 2rem;
@@ -537,26 +554,37 @@ function PeopleStyles() {
       }
 
       .back-button:hover {
-        background-color: #f5f5f5;
+        background-color: rgba(20, 61, 109, 0.1);
+      }
+
+      .back-button:focus {
+        outline: 3px solid #1CC0F0;
+        outline-offset: 2px;
+      }
+
+      .back-button:focus-visible {
+        outline: 3px solid #1CC0F0;
+        outline-offset: 2px;
       }
 
       .page-title {
-        font-size: 3rem;
-        font-weight: 400;
-        color: #000000;
-        margin-bottom: 3.5rem;
+        font-size: 2.75rem;
+        font-weight: 500;
+        color: #143D6D;
+        margin-bottom: 4rem;
         text-align: left;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
       }
 
       /* Principal Investigator Card - Clean Layout */
       .pi-card {
         display: flex;
         align-items: flex-start;
-        gap: 2.5rem;
-        margin-bottom: 4rem;
-        padding-bottom: 3rem;
-        border-bottom: 2px solid #e5e7eb;
+        gap: 3rem;
+        margin-bottom: 5rem;
+        padding-bottom: 4rem;
+        border-bottom: 1px solid rgba(20, 61, 109, 0.12);
       }
 
       .pi-photo {
@@ -564,9 +592,11 @@ function PeopleStyles() {
         width: 384px;
         height: 384px;
         overflow: hidden;
-        background: #f3f4f6;
+        background: #ffffff;
         border-radius: 8px;
         align-self: flex-start;
+        box-shadow: 0 2px 12px rgba(20, 61, 109, 0.08);
+        border: 1px solid rgba(20, 61, 109, 0.08);
       }
 
       .pi-photo img {
@@ -588,28 +618,45 @@ function PeopleStyles() {
       }
 
       .pi-name {
-        font-size: 2.4rem;
-        font-weight: 400;
-        color: #000000;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #143D6D;
         margin: 0;
         margin-top: 0;
+        margin-bottom: 0.75rem;
         line-height: 1.3;
+        letter-spacing: -0.01em;
+        position: relative;
+        padding-bottom: 1.25rem;
+      }
+
+      .pi-name::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 64px;
+        height: 3px;
+        background: linear-gradient(90deg, #143D6D 0%, #1CC0F0 100%);
+        border-radius: 2px;
       }
 
       .pi-title {
         font-size: 1.3rem;
-        color: #1a1a1a;
+        color: #143D6D;
         font-weight: 400;
         margin: 0;
         line-height: 1.6;
+        opacity: 0.9;
       }
 
       .pi-bio {
         font-size: 1.15rem;
-        color: #000000;
+        color: #143D6D;
         line-height: 1.9;
         margin-top: 1.2rem;
         font-weight: 300;
+        opacity: 0.85;
       }
 
       /* Section Titles */
@@ -622,12 +669,17 @@ function PeopleStyles() {
       }
 
       .section-title {
-        font-size: 2rem;
-        font-weight: 400;
-        color: #000000;
-        margin-bottom: 2.5rem;
-        letter-spacing: -0.01em;
-        text-transform: none;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #143D6D;
+        margin-bottom: 3rem;
+        margin-top: 4rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        position: relative;
+        padding-left: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-left: 3px solid #FF7A30;
       }
 
       /* Member List - Simple Vertical Layout */
@@ -641,8 +693,8 @@ function PeopleStyles() {
         display: flex;
         align-items: flex-start;
         gap: 3rem;
-        padding: 3rem 0;
-        border-bottom: 1px solid #e5e7eb;
+        padding: 3.5rem 0;
+        border-bottom: 1px solid rgba(20, 61, 109, 0.1);
       }
 
       .member-card:last-child {
@@ -654,9 +706,11 @@ function PeopleStyles() {
         width: 288px;
         height: 288px;
         overflow: hidden;
-        background: #f3f4f6;
+        background: #ffffff;
         border-radius: 8px;
         align-self: flex-start;
+        box-shadow: 0 2px 12px rgba(20, 61, 109, 0.08);
+        border: 1px solid rgba(20, 61, 109, 0.08);
       }
 
       .member-photo img {
@@ -678,20 +732,22 @@ function PeopleStyles() {
       }
 
       .member-name {
-        font-size: 1.8rem;
-        font-weight: 400;
-        color: #000000;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #143D6D;
         margin: 0;
         margin-top: 0;
         line-height: 1.4;
+        letter-spacing: -0.01em;
       }
 
       .member-title {
         font-size: 1.25rem;
-        color: #1a1a1a;
+        color: #143D6D;
         font-weight: 400;
         margin: 0;
         line-height: 1.6;
+        opacity: 0.9;
       }
 
       .member-degree {
@@ -711,35 +767,37 @@ function PeopleStyles() {
 
       .member-bio {
         font-size: 1.15rem;
-        color: #000000;
+        color: #143D6D;
         line-height: 1.9;
         margin-top: 1rem;
         font-weight: 300;
+        opacity: 0.85;
       }
 
       .member-after {
         font-size: 1rem;
-        color: #111827;
+        color: #143D6D;
         margin-top: 0.75rem;
         padding-top: 0.75rem;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid rgba(20, 61, 109, 0.2);
       }
 
       .member-after strong {
         font-weight: 500;
-        color: #111827;
+        color: #143D6D;
       }
 
       .member-funding {
         font-size: 1.1rem;
-        color: #1a1a1a;
+        color: #143D6D;
         margin-top: 0.75rem;
         font-weight: 300;
+        opacity: 0.9;
       }
 
       .member-funding strong {
         font-weight: 500;
-        color: #000000;
+        color: #143D6D;
       }
 
       /* Footer Navigation */
@@ -751,35 +809,36 @@ function PeopleStyles() {
         margin-top: 4rem;
         padding-top: 3rem;
         padding-bottom: 2rem;
-        border-top: 2px solid #e5e7eb;
+        border-top: 1px solid rgba(20, 61, 109, 0.12);
         display: flex;
         justify-content: center;
         gap: 2rem;
         flex-wrap: wrap;
         background: #ffffff;
         z-index: 100;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -2px 12px rgba(20, 61, 109, 0.06);
       }
 
       .footer-nav-button {
         background: none;
-        border: 2px solid #000000;
-        color: #000000;
-        font-size: 1.1rem;
-        font-weight: 400;
-        padding: 0.75rem 2rem;
+        border: 1.5px solid #143D6D;
+        color: #143D6D;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.875rem 2.5rem;
         cursor: pointer;
-        border-radius: 4px;
-        transition: all 0.3s ease;
+        border-radius: 6px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
         display: inline-block;
+        letter-spacing: 0.02em;
       }
 
       .footer-nav-button:hover {
-        background-color: #000000;
+        background-color: #143D6D;
         color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(20, 61, 109, 0.2);
       }
 
       .footer-nav-button:active {
@@ -787,7 +846,32 @@ function PeopleStyles() {
       }
 
       .footer-nav-button:focus {
-        outline: 3px solid #667eea;
+        outline: 3px solid #1CC0F0;
+        outline-offset: 2px;
+      }
+
+      .footer-nav-button:focus-visible {
+        outline: 3px solid #1CC0F0;
+        outline-offset: 2px;
+      }
+
+      /* Skip Link for Accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #143D6D;
+        color: #ffffff;
+        padding: 8px 16px;
+        text-decoration: none;
+        z-index: 1000;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+
+      .skip-link:focus {
+        top: 0;
+        outline: 3px solid #1CC0F0;
         outline-offset: 2px;
       }
 
@@ -798,8 +882,8 @@ function PeopleStyles() {
         }
 
         .people-heading {
-          font-size: 2.2rem;
-          margin-bottom: 2rem;
+          font-size: 2.25rem;
+          margin-bottom: 3rem;
         }
 
         .people-title {
@@ -812,21 +896,19 @@ function PeopleStyles() {
 
         .photo-grid {
           grid-template-columns: 1fr;
-          gap: 1.5rem;
+          gap: 2.5rem;
         }
 
         .photo-container {
-          height: 400px;
-        }
-
-        .photo-container h3 {
-          font-size: 1.25rem;
-          bottom: 15px;
-          left: 15px;
+          height: 450px;
         }
 
         .photo-title {
-          font-size: 2rem;
+          font-size: 1.5rem;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 0 20px;
         }
 
         .photo-subtitle {
@@ -838,14 +920,14 @@ function PeopleStyles() {
         }
 
         .page-title {
-          font-size: 2rem;
-          margin-bottom: 2rem;
+          font-size: 2.25rem;
+          margin-bottom: 3rem;
         }
 
         .pi-card {
           flex-direction: column;
-          gap: 1.5rem;
-          padding-bottom: 2rem;
+          gap: 2rem;
+          padding-bottom: 3rem;
         }
 
         .pi-photo {
@@ -855,7 +937,12 @@ function PeopleStyles() {
         }
 
         .pi-name {
-          font-size: 2rem;
+          font-size: 2.2rem;
+        }
+
+        .pi-name::after {
+          width: 60px;
+          height: 3px;
         }
 
         .pi-title {
@@ -893,7 +980,10 @@ function PeopleStyles() {
         }
 
         .section-title {
-          font-size: 1.7rem;
+          font-size: 1.5rem;
+          padding-left: 1rem;
+          border-left-width: 3px;
+          margin-top: 3rem;
         }
 
         .page-title {
@@ -927,33 +1017,46 @@ function PeopleStyles() {
 function PeopleLanding() {
   const navigate = useNavigate()
 
+  const handleKeyDown = (e, path) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      navigate(path)
+    }
+  }
+
   return (
     <div className="people-container">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <h1 className="people-heading">People</h1>
-      <div className="photo-grid">
-        <div 
+      <div className="photo-grid" role="list">
+        <button
           className="photo-container"
           onClick={() => navigate('/current-members')}
+          onKeyDown={(e) => handleKeyDown(e, '/current-members')}
+          aria-label="Navigate to Current Lab Members page"
+          type="button"
         >
           <div className="photo-placeholder current-members-photo">
             <img 
               src={currentPhoto}
-              alt="Current Lab Members"
-
+              alt="Group photo of current lab members"
             />
           </div>
-          <h3>Current Lab Members</h3>
-        </div>
+          <h2 className="photo-title">Current Lab Members</h2>
+        </button>
 
-        <div 
+        <button
           className="photo-container"
           onClick={() => navigate('/alumni')}
+          onKeyDown={(e) => handleKeyDown(e, '/alumni')}
+          aria-label="Navigate to Alumni page"
+          type="button"
         >
           <div className="photo-placeholder alumni-photo">
-            <img src={alumniPhoto} alt="Alumni Members"/>
+            <img src={alumniPhoto} alt="Group photo of alumni members"/>
           </div>
-          <h3>Alumni</h3>
-        </div>
+          <h2 className="photo-title">Alumni</h2>
+        </button>
       </div>
     </div>
   )
